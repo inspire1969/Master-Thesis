@@ -1,10 +1,10 @@
 #include <Arduino_LSM9DS1.h>
-static const char channels = 3;
+static const char channels = 1;
 static const int frequency = 70;
 volatile int samplesRead;
 volatile int capture_index_position;
 short sampleBuffer[210];
-
+#define RED 22
 void setup() {
   capture_index_position=0;
     Serial.begin(115200);
@@ -20,9 +20,11 @@ void setup() {
 
 void loop() {
   float x, y, z;
+  if (samplesRead) {
+    digitalWrite(22,HIGH);
     if (capture_index_position > 210)
     {
-    digitalWrite(13,LOW);
+    digitalWrite(22,LOW);
     // Print samples to the serial monitor or plotter
     for (int i = 0; i < 210; i++) {
       Serial.println( sampleBuffer[i]);
